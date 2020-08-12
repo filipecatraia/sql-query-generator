@@ -1,12 +1,13 @@
 {
   "name": "sql-query-generator",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "description": "A schemaless sql query builder.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "npm run build && mocha"
+    "test": "npm run build && mocha",
+    "postinstall": "npm run build"
   },
   "keywords": [
     "sql",
