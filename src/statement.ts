@@ -12,10 +12,10 @@ export abstract class Statement {
         switch (dialect) {
             case "mysql":
                 return new MysqlStatement();
-                
+
             case "mssql":
                 return new MssqlStatement();
-                
+
             default:
             case "postgres":
                 return new PostgresStatement();
@@ -34,9 +34,9 @@ export abstract class Statement {
             return this;
         }
 
-        let expression = Object.keys(fields).map((v, k) => `${v} ${operator} $${k + this.values.length + 1}`);
+        let expression = Object.keys(fields).map((v, k) => `"${v}" ${operator} $${k + this.values.length + 1}`);
         this.values = this.values.concat(Object.values(fields));
-        
+
         if (expression.length > 1){
             this.text += ` WHERE (${expression.join(` ${separator} `)})`;
         } else {
@@ -128,7 +128,7 @@ export class PostgresStatement extends Statement {
     limit(limit: number, offset: number | undefined): Statement {
         if (!Number.isInteger(limit))
             throw new Error("Limit should be a number");
-            
+
         if (offset != undefined && !Number.isInteger(offset))
             throw new Error("Offset should be a number or undefined");
 
@@ -148,7 +148,7 @@ export class MysqlStatement extends Statement {
     limit(limit: number, offset: number): Statement {
         if (!Number.isInteger(limit))
             throw new Error("Limit should be a number");
-            
+
         if (offset != undefined && !Number.isInteger(offset))
             throw new Error("Offset should be a number or undefined");
 
